@@ -20,41 +20,41 @@ CLASSES = [
     "teddy bear", "hair drier", "toothbrush"]
 
 @st.cache(show_spinner=False, suppress_st_warning=True)  # Avoid redundant API calls for the same image
-# def inference(json_data):
-#     response = requests.post(endpoint, json=json_data)
-#     response_json = json.loads(response.text)
-#     pred = response_json['data']['ndarray']
-#     return pred
-
 def inference(json_data):
-    try:
-        response = requests.post(endpoint, json=json_data)
-        response.raise_for_status()  # 確保沒有 HTTP 錯誤
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error making API request: {e}")
-        return None
-
-    try:
-        response_json = response.json()
-    except json.JSONDecodeError as e:
-        st.error(f"Error decoding JSON response: {e}")
-        return None
-
-    # 檢查 API 回應中是否包含 'data' 和 'ndarray' 欄位
-    data_field = response_json.get('data', None)
-    ndarray_field = data_field.get('ndarray', None) if data_field is not None else None
-
-    if ndarray_field is None:
-        st.error("Missing 'data' or 'ndarray' field in API response")
-        return None
-
-    pred = ndarray_field
-
-    if not isinstance(pred, list):
-        st.error("'ndarray' field in API response is not a list")
-        return None
-
+    response = requests.post(endpoint, json=json_data)
+    response_json = json.loads(response.text)
+    pred = response_json['data']['ndarray']
     return pred
+
+# def inference(json_data):
+#     try:
+#         response = requests.post(endpoint, json=json_data)
+#         response.raise_for_status()  # 確保沒有 HTTP 錯誤
+#     except requests.exceptions.RequestException as e:
+#         st.error(f"Error making API request: {e}")
+#         return None
+
+#     try:
+#         response_json = response.json()
+#     except json.JSONDecodeError as e:
+#         st.error(f"Error decoding JSON response: {e}")
+#         return None
+
+#     # 檢查 API 回應中是否包含 'data' 和 'ndarray' 欄位
+#     data_field = response_json.get('data', None)
+#     ndarray_field = data_field.get('ndarray', None) if data_field is not None else None
+
+#     if ndarray_field is None:
+#         st.error("Missing 'data' or 'ndarray' field in API response")
+#         return None
+
+#     pred = ndarray_field
+
+#     if not isinstance(pred, list):
+#         st.error("'ndarray' field in API response is not a list")
+#         return None
+
+#     return pred
 
 
 
