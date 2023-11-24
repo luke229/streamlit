@@ -20,11 +20,24 @@ CLASSES = [
     "teddy bear", "hair drier", "toothbrush"]
 
 @st.cache(show_spinner=False, suppress_st_warning=True)  # Avoid redundant API calls for the same image
+# def inference(json_data):
+#     response = requests.post(endpoint, json=json_data)
+#     response_json = json.loads(response.text)
+#     pred = response_json['data']['ndarray']
+#     return pred
+
 def inference(json_data):
     response = requests.post(endpoint, json=json_data)
-    response_json = json.loads(response.text)
-    pred = response_json['data']['ndarray']
+    
+    try:
+        response_json = response.json()
+    except json.JSONDecodeError as e:
+        st.error(f"Error decoding JSON response: {e}")
+        return None
+
+    pred = response_json.get('data', {}).get('ndarray', [])
     return pred
+
 
 def main():
     st.set_page_config(layout='wide')
