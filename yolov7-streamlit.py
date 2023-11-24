@@ -46,11 +46,12 @@ def main():
         pred = inference(json_data)
         
         image = original_image
-        font = ImageFont.truetype("/project/phusers/yolov7/Yagora.ttf", 30)
+        # font = ImageFont.truetype("/project/phusers/yolov7/Yagora.ttf", 30)
         draw = ImageDraw.Draw(image)
         for x1, y1, x2, y2, conf, class_id in pred:
             draw.rectangle(((x1, y1), (x2, y2)), width=2)
-            draw.text((x1, y1), "{}, {}".format(CLASSES[int(class_id)], round(conf, 3)), font = font)
+            # draw.text((x1, y1), "{}, {}".format(CLASSES[int(class_id)], round(conf, 3)), font = font)
+            draw.text((x1, y1), "{}, {}".format(CLASSES[int(class_id)], round(conf, 3)))
         st.text("Prediction Image")
         st.image(image)
         
