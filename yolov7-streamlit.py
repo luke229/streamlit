@@ -74,6 +74,7 @@ def main():
     if file:
         original_image = Image.open(file)
         st.sidebar.text("Original Image")
+        st.sidebar.text(endpoint)
         st.sidebar.image(original_image)
         json_data = {}
         json_data['data'] = {}
