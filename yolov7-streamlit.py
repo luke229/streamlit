@@ -29,6 +29,9 @@ CLASSES = [
 def inference(json_data):
     response = requests.post(endpoint, json=json_data)
     
+    print("API Response:")
+    print(response.text)  # 輸出 API 回應的內容
+
     try:
         response_json = response.json()
     except json.JSONDecodeError as e:
