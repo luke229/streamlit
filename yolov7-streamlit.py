@@ -22,6 +22,9 @@ CLASSES = [
 @st.cache(show_spinner=False, suppress_st_warning=True)  # Avoid redundant API calls for the same image
 def inference(json_data):
     response = requests.post(endpoint, json=json_data)
+    print("API Response:")
+    print(response.text)
+        
     response_json = json.loads(response.text)
     pred = response_json['data']['ndarray']
     return pred
