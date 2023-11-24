@@ -27,10 +27,12 @@ CLASSES = [
 #     return pred
 
 def inference(json_data):
-    response = requests.post(endpoint, json=json_data)
-    
-    print("API Response:")
-    print(response.text)  # 輸出 API 回應的內容
+    try:
+        response = requests.post(endpoint, json=json_data)
+        response.raise_for_status()  # 確保沒有 HTTP 錯誤
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error making API request: {e}")
+        return None
 
     try:
         response_json = response.json()
@@ -38,7 +40,16 @@ def inference(json_data):
         st.error(f"Error decoding JSON response: {e}")
         return None
 
-    pred = response_json.get('data', {}).get('ndarray', [])
+    # 檢查 API 回應中是否包含 'data' 和 'ndarray' 欄位
+    data_field = response_json.get('data', None)
+    ndarray_field = data_field.get('ndarray', None) if data_field is not None else None
+
+    if ndarray_field is None:
+        st.error("Missing 'data' or 'ndarray' field in API response")
+        return None
+
+    pred = ndarray_field
+
     return pred
 
 
