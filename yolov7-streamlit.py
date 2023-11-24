@@ -74,11 +74,13 @@ def main():
     if file:
         original_image = Image.open(file)
         st.sidebar.text("Original Image")
-        st.sidebar.text(endpoint)
-        st.sidebar.image(original_image)
+        
         json_data = {}
         json_data['data'] = {}
         json_data['data']["ndarray"] = [np.array(original_image).tolist()]
+        st.sidebar.text(json_data)
+        st.sidebar.image(original_image)
+        
         pred = inference(json_data)
         
         image = original_image
