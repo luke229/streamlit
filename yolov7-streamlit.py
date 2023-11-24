@@ -50,7 +50,12 @@ def inference(json_data):
 
     pred = ndarray_field
 
+    if not isinstance(pred, list):
+        st.error("'ndarray' field in API response is not a list")
+        return None
+
     return pred
+
 
 
 def main():
